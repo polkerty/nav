@@ -1,0 +1,91 @@
+<html>
+    <head>
+        <style>
+        
+            body {
+                --size1: 300px;
+                --layer2: 99;
+
+            }
+            .street {
+                position: absolute;
+            }
+
+            .street::before {
+                content:' ';
+                display: block;
+                position: absolute;
+            }
+
+
+
+            .street--horizontal {
+                height: var(--size1);
+                width: 100vw;
+                border-top: 1px solid black;
+                border-bottom: 1px solid black;
+                left: 0;
+                top: 50%;
+                transform: translate(0%, -50%);
+            }
+
+            .street--horizontal::before {
+                height: 10px;
+                width: 100%;
+                top: 50%;
+                left: 0;
+                border-top: 3px solid gold;
+                border-bottom: 3px solid gold;
+                transform: translate(0%, -50%);
+            }
+
+            .street--vertical {
+                height: 100vh;
+                width: var(--size1);
+                border-left: 1px solid black;
+                border-right: 1px solid black;
+                top: 0;
+                left: 50%;
+                transform: translate(-50%, 0%);
+            }
+
+            .street--vertical::before {
+                width: 10px;
+                height: 100%;
+                top: 0%;
+                left: 50%;
+                border-left: 3px solid gold;
+                border-right: 3px solid gold;
+                transform: translate(-50%, 0%);
+            }
+
+            .intersection {
+                height: var(--size1);
+                width: var(--size1);
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                z-index: var(--layer2);
+                background: white;
+                transform: translate(-50%, -50%);
+                border: 1px solid white;
+            }
+
+            
+        </style>
+
+
+    </head>
+    <body>
+
+        <div id="main" >
+            <div class="street street--horizontal"></div>
+            <div class="street street--vertical"></div>
+            <div class="intersection"></div>
+
+            
+        </div>
+        <script>
+        </script>
+    </body>
+</html>
