@@ -31,3 +31,9 @@ so you have this network of blocks.
 
 you can absolutely position each block and road,
 and then adjust the overall position of the frame.
+
+--
+how does gameplay work?
+1. Reveal a particular viewport
+2. Animate a path. (speed adjustable)
+3. Require replaying path, from reverse orientation.
