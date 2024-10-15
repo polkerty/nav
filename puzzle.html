@@ -3,7 +3,9 @@
         <style>
         
             body {
+                --size0: 100px;
                 --size1: 300px;
+                --size2: 600px;
                 --layer2: 99;
 
             }
@@ -21,7 +23,7 @@
 
             .street--horizontal {
                 height: var(--size1);
-                width: 100vw;
+                width: var(--size2);
                 border-top: 1px solid black;
                 border-bottom: 1px solid black;
                 left: 0;
@@ -40,7 +42,7 @@
             }
 
             .street--vertical {
-                height: 100vh;
+                height: var(--size2);;
                 width: var(--size1);
                 border-left: 1px solid black;
                 border-right: 1px solid black;
@@ -71,6 +73,49 @@
                 border: 1px solid white;
             }
 
+            .landmarks {
+                position: absolute;
+                background: #eee;
+
+            }
+
+            .landmarks--topleft {
+                top: 0;
+                left: 0;
+                width: calc(50% - (var(--size1) / 2));
+                height: calc(50% - (var(--size1) / 2));
+            }
+
+            .landmarks--topright {
+                top: 0;
+                right: 0;
+                width: calc(50% - (var(--size1) / 2));
+                height: calc(50% - (var(--size1) / 2));
+            }
+
+            .landmarks--botleft {
+                bottom: 0;
+                left: 0;
+                width: calc(50% - (var(--size1) / 2));
+                height: calc(50% - (var(--size1) / 2));
+            }
+
+            .landmarks--botright {
+                bottom: 0;
+                right: 0;
+                width: calc(50% - (var(--size1) / 2));
+                height: calc(50% - (var(--size1) / 2));
+            }
+
+            .landmarks__strip {
+                position: flex;
+                height: var(--size0);
+            }
+
+            .landmarks__space {
+                flex-grow: 1;
+            }
+
             
         </style>
 
@@ -82,8 +127,23 @@
             <div class="street street--horizontal"></div>
             <div class="street street--vertical"></div>
             <div class="intersection"></div>
+            <div class="landmarks landmarks--topleft" >
+                <div class="landmarks__strip" >
+                    <div class="landmark landmark-building" ></div>
+                    <div class="landmarks__space" ></div>
+                    <div class="landmark landmark-tree" ></div>
+                </div>
+            </div>
+            <div class="landmarks landmarks--topright" >
+                <div class="landmark landmark-building" ></div>
+            </div>
+            <div class="landmarks landmarks--botleft" >
+                <div class="landmark landmark-building" ></div>
+            </div>
+            <div class="landmarks landmarks--botright" >
+                <div class="landmark landmark-building" ></div>
+            </div>
 
-            
         </div>
         <script>
         </script>
