@@ -1,0 +1,492 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 10pt;
+      }
+      .strip {
+        display: flex;
+      }
+      .block-row {
+        display: flex;
+      }
+      .block {
+        border: 1px solid black;
+        margin: 50px;
+      }
+      .object {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        box-sizing: border-box;
+      }
+
+      .object-building {
+        border: 1px solid gray;
+      }
+
+      .object-park {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: flex-end;
+        height: 100vh;
+        background-color: #d6fbe2;
+      }
+
+      .object-park .tree {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        margin: 0 10px;
+      }
+
+      .object-park .tree-top {
+        width: 10px;
+        height: 10px;
+        background-color: #228b22; /* Green for leaves */
+        border-radius: 50%;
+        position: relative;
+        top: 0;
+      }
+
+      .object-park .tree-trunk {
+        width: 3px;
+        height: 5px;
+        background-color: #8b4513; /* Brown for trunk */
+        border-radius: 1px;
+        position: relative;
+        top: -2px;
+      }
+
+      .object-park .bush {
+        width: 10px;
+        height: 5px;
+        background-color: #228b22;
+        border-radius: 50%;
+        margin-top: 20px;
+      }
+
+      /* Container for the pool */
+      .object-fountain {
+        width: 100%;
+        height: 150px;
+        position: relative;
+        overflow: hidden;
+        background: #4aa3df; /* Base water color */
+        border-radius: 8px;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Water effect inside the pool */
+      .object-fountain__water {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+              circle at 30% 30%,
+              rgba(255, 255, 255, 0.4),
+              rgba(255, 255, 255, 0) 40%
+            )
+            30% 30%,
+          radial-gradient(
+              circle at 70% 70%,
+              rgba(255, 255, 255, 0.4),
+              rgba(255, 255, 255, 0) 40%
+            )
+            70% 70%,
+          radial-gradient(
+              circle at 50% 50%,
+              rgba(255, 255, 255, 0.2),
+              rgba(255, 255, 255, 0) 40%
+            )
+            50% 50%,
+          linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0));
+        background-size: 300px 300px;
+        opacity: 0.8;
+        border-radius: 8px;
+      }
+      /* viewport */
+    </style>
+  </head>
+  <body>
+    <div id="main"></div>
+
+    <script>
+      const SLOT_SIZE = 150;
+
+      function randBetween(a, b) {
+        return Math.floor(Math.random() * (b - a) + a);
+      }
+
+      function generateBuildingName() {
+        const g1 = [
+          "Grocery",
+          "Gas",
+          "School",
+          "Lunch",
+          "Laundry",
+          "Game",
+          "Book",
+          "Joe's",
+          "Anne's",
+          "Coffee",
+          "Golf",
+          "News",
+          "Apartment",
+          "Exercise",
+          "Cleaning",
+          "Donut",
+          "Candy",
+          "Pizza",
+          "Juice",
+          "Clothing",
+          "Computer",
+          "Dog",
+          "Cat",
+          "Goat",
+          "Plant",
+          "Hardware",
+          "Water",
+          "Pajama",
+          "Dentist",
+          "Physical Therapist",
+          "Music",
+          "Toast",
+          "Butter",
+          "Toy",
+          "Lamb's",
+          "Fire",
+          "Bird",
+          "Chicken",
+          "Post",
+          "Surf",
+          "Bike",
+          "Farmer's",
+          "Tea",
+          "Hair",
+          "Car",
+        ];
+
+        const g2 = [
+          "Outlet",
+          "Bar",
+          "Gym",
+          "Emporium",
+          "Mall",
+          "Club",
+          "Store",
+          "Station",
+          "Meeting",
+          "Park",
+          "Museum",
+          "Room",
+          "Library",
+          "House",
+          "Club",
+          "Office",
+          "Depot",
+          "Cafe",
+          "Market",
+          "Jail",
+          "Eatery",
+          "School",
+          "Farm",
+          "Theatre",
+          "Shop",
+          "Nursery",
+          "Salon",
+          "Mechanic",
+          "Buttery",
+        ];
+
+        const g3 = [
+          "🤖",
+          "🌌",
+          "🧬",
+          "🎨",
+          "🦕",
+          "🚀",
+          "🦸‍♂️",
+          "🧘‍♀️",
+          "🧙‍♂️",
+          "🦋",
+          "🔮",
+          "⚡",
+          "🌋",
+          "🌱",
+          "🎻",
+          "💡",
+          "🎲",
+          "📚",
+          "🧊",
+        ];
+
+        return (
+          g1[(Math.random() * g1.length) | 0] +
+          " " +
+          g2[(Math.random() * g2.length) | 0] +
+          " " +
+          g3[(Math.random() * g3.length) | 0]
+        );
+      }
+
+      function generateColor() {
+        const c1 = randBetween(230, 255);
+        const c2 = randBetween(230, 255);
+        const c3 = randBetween(230, 255);
+        return `rgb(${c1},${c2},${c3})`;
+      }
+
+      function Building({ type, name, color, height, width }) {
+        this.type = "building";
+        this.name = name;
+        this.color = color;
+        this.height = height;
+        this.width = width;
+        return this;
+      }
+
+      function Park({ type, height, width }) {
+        this.type = "park";
+        this.height = height;
+        this.width = width;
+        this.pattern = "";
+        const options = ["ttttb"];
+        for (let i = 0; i < width * 3; ++i) {
+          this.pattern += options[(Math.random() * options.length) | 0];
+        }
+
+        return this;
+      }
+
+      function Space({ height, width }) {
+        this.type = "space";
+        this.height = height;
+        this.width = width;
+        return this;
+      }
+
+      function Fountain({ height, width }) {
+        this.type = "fountain";
+        this.height = height;
+        this.width = width;
+        return this;
+      }
+
+      function generateObject(size) {
+        // Generates an object of height 1
+        // and width $size.
+
+        const types = [
+          "building",
+          "building",
+          "building",
+          "building",
+          "building",
+          "fountain",
+          "park",
+          "park",
+          "park",
+          "space",
+        ];
+        const type = types[(Math.random() * types.length) | 0];
+        switch (type) {
+          case "building":
+            return new Building({
+              name: generateBuildingName(),
+              color: generateColor(),
+              height: 1,
+              width: size,
+            });
+          case "space":
+            return new Space({
+              height: 1,
+              width: size,
+            });
+          case "fountain":
+            return new Fountain({
+              height: 1,
+              width: size,
+            });
+          case "park":
+            return new Park({
+              height: 1,
+              width: size,
+            });
+          default:
+            throw new Error("Unrecognized type: " + type);
+        }
+      }
+      function generateFullStrip(dim) {
+        const objects = [];
+        let curSize = 0;
+        while (curSize < dim) {
+          const size = Math.floor(Math.random() * 3) + 1;
+          if (curSize + size > dim) continue; // try again
+          const object = generateObject(size);
+          objects.push(object);
+          curSize += size;
+        }
+        return objects;
+      }
+
+      function generateHollowStrip(dim) {
+        const object1 = generateObject(Math.floor(dim / 2));
+        const object2 = generateObject(Math.floor(dim / 2));
+        const spaceNeeded = dim - object1.width - object2.width;
+        const space = new Space({ height: 1, width: spaceNeeded });
+        return [object1, space, object2];
+      }
+
+      function generateBlock(dim) {
+        if (dim < 3) {
+          throw new Error("Block dim must be at least 3");
+        }
+        // The standard block is a square with $dim slots per side.
+        const block = [generateFullStrip(dim)];
+        for (var i = 0; i < dim - 2; ++i) {
+          block.push(generateHollowStrip(dim));
+        }
+        block.push(generateFullStrip(dim));
+
+        return block;
+      }
+
+      function generateWorld(dimX, dimY, dimBlock) {
+        const blocks = [];
+        for (var i = 0; i < dimX; ++i) {
+          const row = [];
+          for (var j = 0; j < dimY; ++j) {
+            const block = generateBlock(dimBlock);
+            row.push(block);
+          }
+          blocks.push(row);
+        }
+        return { blocks };
+      }
+
+      function renderBuilding(building) {
+        let style = `background: ${building.color};`;
+        style += `height: ${SLOT_SIZE * building.height};`;
+        style += `width: ${SLOT_SIZE * building.width};`;
+        return `
+                    <div class="object object-building" style="${style}" >
+                        ${building.name}
+                    </div>
+                `;
+      }
+
+      function renderSpace(space) {
+        let style = "";
+        style += `height: ${SLOT_SIZE * space.height};`;
+        style += `width: ${SLOT_SIZE * space.width};`;
+        return `
+                    <div class="object object-space" style="${style}" >
+                    </div>
+                `;
+      }
+
+      function renderFountain(fountain) {
+        let style = "";
+        style += `height: ${SLOT_SIZE * fountain.height};`;
+        style += `width: ${SLOT_SIZE * fountain.width};`;
+        return `
+                    <div class="object object-fountain" style="${style}" >
+                        <div class="object-fountain__water"></div>
+                    </div>
+                `;
+      }
+
+      function renderPark(park) {
+        let style = "";
+        style += `height: ${SLOT_SIZE * park.height};`;
+        style += `width: ${SLOT_SIZE * park.width};`;
+
+        let html = `<div class="object object-park" style="${style}" >`;
+        for (const item of park.pattern) {
+          switch (item) {
+            case "t":
+              html += `<div class="tree">
+                <div class="tree-top"></div>
+                <div class="tree-trunk"></div>
+            </div>`;
+              break;
+            case "b":
+              html += ` <div class="bush"></div> `;
+              break;
+            default:
+              throw new Error("Unrecognized park pattern: " + item);
+          }
+        }
+        html += "</div>";
+        return html;
+      }
+
+      function renderObject(object) {
+        switch (object.type) {
+          case "building":
+            return renderBuilding(object);
+          case "fountain":
+            return renderFountain(object);
+          case "park":
+            return renderPark(object);
+          case "space":
+            return renderSpace(object);
+          default:
+            throw new Error("Unrecognized type: " + object.type);
+        }
+      }
+      function renderStrip(strip) {
+        let html = '<div class="strip" >';
+        for (const object of strip) {
+          html += renderObject(object);
+        }
+        html += "</div>";
+        return html;
+      }
+
+      function renderBlock(block) {
+        let html = '<div class="block" >';
+        for (const strip of block) {
+          html += renderStrip(strip);
+        }
+        html += "</div>";
+        return html;
+      }
+
+      function renderRowOfBlocks(row) {
+        let html = '<div class="block-row" >';
+        for (const block of row) {
+          html += renderBlock(block);
+        }
+        html += "</div>";
+        return html;
+      }
+
+      function render(world, root) {
+        let html = "";
+
+        for (const row of world.blocks) {
+          html += renderRowOfBlocks(row);
+        }
+
+        root.innerHTML = html;
+      }
+
+      const world = generateWorld(6, 6, 5);
+
+      console.log(world);
+
+      const root = document.getElementById("main");
+      render(world, root);
+    </script>
+  </body>
+</html>

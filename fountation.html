@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pool Visualization</title>
+    <style>
+        /* Container for the pool */
+        .object-foundation {
+            width: 100%;
+            height: 150px;
+            position: relative;
+            overflow: hidden;
+            background: #4aa3df; /* Base water color */
+            border-radius: 8px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Water effect inside the pool */
+        .object-foundation__water {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 40%) 30% 30%,
+                        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 40%) 70% 70%,
+                        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 40%) 50% 50%,
+                        linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0));
+            background-size: 300px 300px;
+            opacity: 0.8;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="object-foundation">
+        <div class="object-foundation__water"></div>
+    </div>
+</body>
+</html>
