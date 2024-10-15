@@ -339,8 +339,8 @@
       }
 
       function generateHollowStrip(dim) {
-        const object1 = generateObject(Math.floor(dim / 2));
-        const object2 = generateObject(Math.floor(dim / 2));
+        const object1 = generateObject(randBetween(1, Math.floor(dim / 2 + 1)));
+        const object2 = generateObject(randBetween(1, Math.floor(dim / 2 + 1)));
         const spaceNeeded = dim - object1.width - object2.width;
         const space = new Space({ height: 1, width: spaceNeeded });
         return [object1, space, object2];
@@ -481,7 +481,7 @@
         root.innerHTML = html;
       }
 
-      const world = generateWorld(6, 6, 5);
+      const world = generateWorld(10, 10, 7);
 
       console.log(world);
 
